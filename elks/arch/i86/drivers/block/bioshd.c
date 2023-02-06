@@ -80,6 +80,10 @@
 #define MAXDRIVES	4	/* max floppy drives*/
 #endif
 
+#ifdef CONFIG_ARCH_A7150
+#define MAXDRIVES	4	/* max floppy drives*/
+#endif
+
 /* comment out following line for single-line drive info summary*/
 #define PRINT_DRIVE_INFO	NUM_DRIVES
 
@@ -364,6 +368,13 @@ static unsigned short int INITPROC bioshd_getfdinfo(void)
 #ifdef CONFIG_ARCH_IBMPC
     drive_info[DRIVE_FD0] = fd_types[2];	/*  /dev/fd0    */
     drive_info[DRIVE_FD1] = fd_types[2];	/*  /dev/fd1    */
+#endif
+
+#ifdef CONFIG_ARCH_A7150
+    drive_info[DRIVE_FD0] = fd_types[2];	/*  /dev/fd0    */
+    drive_info[DRIVE_FD1] = fd_types[2];	/*  /dev/fd1    */
+    drive_info[DRIVE_FD2] = fd_types[2];	/*  /dev/fd2    */
+    drive_info[DRIVE_FD3] = fd_types[2];	/*  /dev/fd3    */
 #endif
 
     return ndrives;

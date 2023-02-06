@@ -76,6 +76,23 @@
 #define CONFIG_8018X_EB
 #endif
 
+#ifdef CONFIG_ARCH_A7150
+#define MAX_SERIAL		4	/* max number of serial tty devices*/
+#define SETUP_VID_COLS		80	/* video # columns */
+#define SETUP_VID_LINES		25	/* video # lines */
+#define SETUP_CPU_TYPE		1	/* processor type 80186 */
+#define SETUP_MEM_KBYTES	setupw(0x2a)	/* base memory in 1K bytes */
+#define SETUP_ROOT_DEV		setupw(0x1fc)	/* root device, kdev_t or BIOS dev */
+#define SETUP_ELKS_FLAGS	setupb(0x1f6)	/* flags for root device type */
+#define SETUP_PART_OFFSETLO	setupw(0x1e2)	/* partition offset low word */
+#define SETUP_PART_OFFSETHI	setupw(0x1e4)	/* partition offset high word */
+#define SYS_CAPS		0	/* no XT/AT capabilities */
+#define UTS_MACHINE		"A7150"
+
+#define CONFIG_VAR_SECTOR_SIZE	/* sector size may vary across disks */
+#endif
+
+
 /*
  * System capabilities - configurable for ROM or custom installations.
  * Normally, all capabilities will be set if arch_cpu > 5 (PC/AT),
@@ -112,7 +129,7 @@
 #endif /* CONFIG_ROMCODE */
 
 
-#if (defined(CONFIG_ARCH_IBMPC) || defined(CONFIG_ARCH_8018X)) && !defined(CONFIG_ROMCODE)
+#if (defined(CONFIG_ARCH_IBMPC) || defined(CONFIG_ARCH_8018X) || defined(CONFIG_ARCH_A7150)) && !defined(CONFIG_ROMCODE)
 /* Define segment locations of low memory, must not overlap */
 #define DEF_OPTSEG	0x50  /* 0x200 bytes boot options*/
 #define OPTSEGSZ 0x200    /* max size of /bootopts file (1K max) */

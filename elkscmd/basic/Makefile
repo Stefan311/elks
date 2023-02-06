@@ -36,6 +36,10 @@ ifeq ($(CONFIG_ARCH_PC98), y)
 OBJS += host-pc98.o intC5-pc98.o
 endif
 
+ifeq ($(CONFIG_ARCH_A7150), y)
+OBJS += host-stubs.o
+endif
+
 all: $(PRGS) $(HOSTPRGS)
 
 basic: $(OBJS) basic.h host.h

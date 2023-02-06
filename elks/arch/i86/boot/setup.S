@@ -1163,6 +1163,72 @@ tvram_x:
 #endif /* CONFIG_ARCH_PC98 */
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// Architecture specific routines for Robotron A7150
+//	Entry points specific for platform setup of SETUP_xxx variables (see config.h)
+//		arch_set_initseg
+//		arch_get_mem
+
+#ifdef CONFIG_ARCH_A7150
+
+// Return total memory in Kbytes
+arch_get_mem:
+#if SETUP_MEM_KBYTES_ASM
+	mov $SETUP_MEM_KBYTES_ASM,%ax  // force available memory (usually for testing)
+#else
+	int $0x12   // AX in KB
+#endif
+	ret
+
+// Set INITSEG values
+arch_set_initseg:
+	//
+	// Store the processor name and type (always 8086 or clone in this systems)
+	//
+	mov	$1,%cl
+	lea	p8086,%si
+	push	%cx
+	mov	$INITSEG,%ax
+	mov	%ax,%es
+	mov	$0x30,%di
+	mov	$16,%cx
+	cld
+con_cp1:
+	lodsb
+	stosb
+	or	%al,%al
+	loopnz	con_cp1
+	pop	%cx
+	mov	$INITSEG,%ax
+	mov	%ax,%ds
+	call	arch_get_mem	// save base memory size
+	mov	%ax,mem_kbytes
+
+#ifdef CONFIG_BOOTOPTS
+	call	bootopts	// load /bootopts into DEF_OPTSEG (0050:0000)
+#endif
+	ret
+p8086:	.ascii "i8086 or clone"
+	.byte 0
+
+// Write AL to console, save all other registers
+putc:	push %bx
+	push %cx
+	push %dx
+	push %bp        // some BIOS may destroy BP
+	mov $0x0E,%ah
+	mov $7,%bx      // page 0
+	int $0x10
+	pop %bp
+	pop %dx
+	pop %cx
+	pop %bx
+	ret
+
+
+#endif /* CONFIG_ARCH_A7150*/
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // This must be last
 setup_sig1:	.word	SIG1

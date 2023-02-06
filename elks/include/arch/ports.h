@@ -66,6 +66,19 @@
 #define PIC2_DATA  0x0A
 #endif
 
+#ifdef CONFIG_ARCH_A7150
+/* timer, timer-8254.c*/
+#define TIMER_CMDS_PORT 0xD6		/* command port */
+#define TIMER_DATA_PORT 0xD0		/* data port    */
+#define TIMER_IRQ	0
+
+/* 8259 interrupt controller, irq-8259.c*/
+#define PIC1_CMD   0xC0
+#define PIC1_DATA  0xC2
+#define PIC2_CMD   0x300	/* 2. PIC on ASP expansion card, port unverified, just a placeholder! */
+#define PIC2_DATA  0x300
+#endif
+
 /* keyboard, kbd-scancode.c*/
 #define KBD_IO		0x60
 #define KBD_CTL		0x61

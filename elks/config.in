@@ -8,7 +8,8 @@ mainmenu_option next_comment
 	choice 'Select system' \
 		"IBM-PC CONFIG_ARCH_IBMPC \
 		 8018X	CONFIG_ARCH_8018X \
-		 PC-98	CONFIG_ARCH_PC98" IBM-PC
+		 PC-98	CONFIG_ARCH_PC98 \
+		 A7150	CONFIG_ARCH_A7150" IBM-PC
 
 	comment 'Platform'
 
@@ -42,6 +43,24 @@ mainmenu_option next_comment
 		comment 'Devices'
 
 		define_bool CONFIG_APM n
+
+	elif [ "$CONFIG_ARCH_A7150" = "y" ]; then
+
+		comment 'Devices'
+		define_bool CONFIG_APM n
+		define_bool CONFIG_TIME_RTC_LOCALTIME n
+		define_bool CONFIG_TIMER_INT0F  n
+		define_bool CONFIG_TIMER_INT1C  n
+		define_bool CONFIG_BLK_DEV_BIOS	y
+		define_bool CONFIG_BLK_DEV_BFD	y
+		define_bool CONFIG_BLK_DEV_BFD_HARD y
+		define_bool CONFIG_BLK_DEV_BFD0_720 y
+		define_bool CONFIG_BLK_DEV_BFD1_720 y
+		define_bool CONFIG_BLK_DEV_BHD	y
+		define bool CONFIG_IDE_PROBE	n
+		define_bool CONFIG_CONSOLE_BIOS	y
+		define_bool CONFIG_CHAR_DEV_LP	n
+		define_bool CONFIG_CHAR_DEV_CGATEXT	  n
 
 	fi
 

@@ -45,6 +45,13 @@
 #define TIMER_HI_BYTE_8M (__u8)(((5+(19968000L/(HZ)))/10)/256)
 #endif
 
+#ifdef CONFIG_ARCH_A7150
+// default wiring:  Timer0=1229KHz to INT0(i8259), Timer1=153.6KHz to IFSS(i8251), Timer2=1129KHz unused
+#define TIMER_LO_BYTE (__u8)(((5+(12290000L/(HZ)))/10)%256)	
+#define TIMER_HI_BYTE (__u8)(((5+(12290000L/(HZ)))/10)/256)
+#endif
+
+
 void enable_timer_tick(void)
 {
     /* set the clock frequency */
@@ -65,6 +72,11 @@ void enable_timer_tick(void)
 	outb (TIMER_LO_BYTE_5M, TIMER_DATA_PORT);   /* LSB */
 	outb (TIMER_HI_BYTE_5M, TIMER_DATA_PORT);   /* MSB */
     }
+#endif
+
+#ifdef CONFIG_ARCH_A7150
+    outb (TIMER_LO_BYTE, TIMER_DATA_PORT);	/* LSB */
+    outb (TIMER_HI_BYTE, TIMER_DATA_PORT);	/* MSB */
 #endif
 }
 

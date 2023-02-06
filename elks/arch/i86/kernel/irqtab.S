@@ -270,7 +270,7 @@ updct:
 	pop	%ax		// Saved IRQ
 	cli			// Disable interrupts to avoid reentering ISR
 
-#if defined(CONFIG_ARCH_IBMPC) || defined(CONFIG_ARCH_PC98)
+#if defined(CONFIG_ARCH_IBMPC) || defined(CONFIG_ARCH_PC98) || defined(CONFIG_ARCH_A7150)
 //
 //	Determine if trap or interrupt
 //
